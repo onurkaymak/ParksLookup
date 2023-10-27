@@ -114,7 +114,20 @@ public class ParksController : ControllerBase
   }
 
 
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> DeletePark(int id)
+  {
+    Park park = await _db.Parks.FindAsync(id);
+    if (park == null)
+    {
+      return NotFound();
+    }
 
+    _db.Parks.Remove(park);
+    await _db.SaveChangesAsync();
+
+    return NoContent();
+  }
 }
 
 
