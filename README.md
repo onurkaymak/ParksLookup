@@ -206,3 +206,102 @@ In the Body of the Post request, use the following format:
 https://localhost:5000/api/accounts/register
 ```
 
+#### Sample JSON Response
+```
+{
+    "status": "success",
+    "message": "User has been successfully created."
+}
+```
+
+<a href="https://ibb.co/h78d8zH"><img src="https://gcdnb.pbrd.co/images/rFBf8RlIeEwH.png?o=1" alt="Register" border="0" style="height:450px;width:550px;"/></a>
+  
+Note that the password must contain at least six characters, one non-alphanumeric character, at least one digit lowercase letter, at least one uppercase letter and at least two unique characters. An invalid password will generate the following response from the API:  
+
+<a href="https://ibb.co/y00H6yS"><img src="https://i.ibb.co/VVVfgSm/Password-Req.png" alt="Password-Req" border="0" style="height:450px;width:550px;"/></a>     
+
+#### SignIn
+Now that we've registered an account with our API, we'll need to authenticate our account and generate a JSON Web Token. We'll be using Postman again for this example. 
+
+Let's setup another `POST` request to the `accounts/signin` endpoint. Select the 'Body' tab, choose the 'raw' radio button, and select 'JSON' from the dropdown selection.
+
+In the Body of the Post request, use the following format:
+```
+{
+    "email": "email@test.com",
+    "password": "@Password123"
+}
+```
+#### Example Query
+```
+https://localhost:5000/api/accounts/signin
+```
+
+#### Sample JSON Response
+```
+{
+    "status": "success",
+    "message": "email@test.com signed in.",
+    "token": "xxxx.xxxx.xxxx"
+}
+```
+<a href="https://ibb.co/4tP1HRT"><img src="https://gcdnb.pbrd.co/images/svw60XgYuJfQ.png?o=1" alt="SignIn" border="0" style="height:450px;width:700px;"/></a>
+
+#### Using the JSON Web Token
+Now let's copy that token from the response, and add it as an authorization header to our next request. Copy the token from the body, and click on the Authorization tab in Postman. On the 'Type', make sure that is set to 'Bearer Token', and then paste in the token in the field on the right.
+
+Until the Token expires, you should now have access to all endpoints requiring user authorization!
+
+#### Example Query
+```
+http://localhost:5000/api/parks?dateFrom=1950-11-11&dateTo=2000-11-11
+```
+
+To use the defaults, _do not include_ `dateFrom` and `dateTo`.
+
+### Notes on Adding Search Parameters
+When adding more than one search parameter to an endpoint query, be sure to include an `&` between parameters.
+
+..........................................................................................
+
+### API Endpoints
+Base URL: `http://localhost:5000`
+
+#### Authentication
+```
+POST /api/accounts/register
+POST /api/accounts/register
+```
+
+#### HTTP Request Structure
+```
+GET /api/parks
+POST /api/parks
+GET /api/parks/{id}
+PUT /api/parks/{id}
+DELETE /api/parks/{id}
+```
+
+#### Example Query
+```
+http://localhost:5000/api/parks/3
+```
+
+#### Sample JSON Response
+```
+{
+    "groupId": 3,
+    "name": "Costumes",
+    "messages": [
+        {
+            "messageId": 2,
+            "text": "What did ya'll get for candy? I got rocks.",
+            "date": "2023-03-21T06:30:00",
+            "userId": "abc"
+        }
+    ]
+}
+```
+
+<a href="https://ibb.co/4tP1HRT"><img src="https://gcdnb.pbrd.co/images/svw60XgYuJfQ.png?o=1" alt="SignIn" border="0" style="height:450px;width:700px;"/></a>
+
