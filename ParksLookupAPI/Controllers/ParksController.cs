@@ -40,7 +40,6 @@ public class ParksController : ControllerBase
 
       return await query
                         .Include(park => park.State)
-                        .Include(park => park.User)
             .ToListAsync();
     }
     catch
@@ -49,12 +48,30 @@ public class ParksController : ControllerBase
     }
   }
 
+
   [HttpPost]
   public async Task<ActionResult<Park>> Post(Park park)
   {
     _db.Parks.Add(park);
     await _db.SaveChangesAsync();
     return NoContent();
+  }
+
+
+  [HttpGet("{id}")]
+  public async Task<ActionResult<Park>> GetPark(int id)
+  {
+    Park park = await _db.Parks
+                              .Include(park => park.State)
+                              .Include(park => park.User)
+                              .FirstOrDefaultAsync(park => park.ParkId == id);
+
+    if (park == null)
+    {
+      return NotFound();
+    }
+
+    return park;
   }
 
 
