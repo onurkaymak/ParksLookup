@@ -290,18 +290,40 @@ http://localhost:5000/api/parks/3
 #### Sample JSON Response
 ```
 {
-    "groupId": 3,
-    "name": "Costumes",
-    "messages": [
-        {
-            "messageId": 2,
-            "text": "What did ya'll get for candy? I got rocks.",
-            "date": "2023-03-21T06:30:00",
-            "userId": "abc"
-        }
-    ]
+    "parkId": 3,
+    "name": "Mount Rainier National Park",
+    "establishedAsPark": "1899-03-02T00:00:00",
+    "stateId": 53,
+    "userId": "onr",
+    "state": {
+        "stateId": 53,
+        "name": "WA"
+    },
+    "user": {
+        "id": "onr",
+        "userName": "Onur",
+        "normalizedUserName": null,
+        "email": "onur@test.com",
+    }
 }
 ```
 
-<a href="https://ibb.co/4tP1HRT"><img src="https://gcdnb.pbrd.co/images/svw60XgYuJfQ.png?o=1" alt="SignIn" border="0" style="height:450px;width:700px;"/></a>
+<a href="https://ibb.co/4tP1HRT"><img src="https://gcdnb.pbrd.co/images/bACaufOTsBFl.png?o=1" alt="SignIn" border="0" style="height:550px;width:700px;"/></a>
+
+..........................................................................................
+
+### Parks
+
+
+#### Path Parameters
+| Parameter | Type | Default | Required | Description |
+| :---: | :---: | :---: | :---: | --- |
+| stateId | int | none | false | Return matches by state.
+| dateFrom | string | none | false | Return any park on or after the specified date. |
+| dateTo | string | none | false | Return any park on or before the specified date. |
+
+#### Example Query
+```
+https://localhost:5001/api/messages?groupId=1&dateTo=08/2023
+```
 
