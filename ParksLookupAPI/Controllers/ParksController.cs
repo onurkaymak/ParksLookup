@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ParksLookupAPI.Models;
 
 
+
 namespace ParksLookupAPI.Controllers;
 
 [ApiController]
@@ -73,6 +74,45 @@ public class ParksController : ControllerBase
 
     return park;
   }
+
+  [HttpPut("{id}")]
+  public async Task<IActionResult> Put(int id, Park park, string userId)
+  {
+    if (id != park.ParkId || userId != park.UserId || !IsAuthor(id, userId))
+    {
+      return BadRequest();
+    }
+
+    try
+    {
+      _db.Parks.Update(park);
+
+      await _db.SaveChangesAsync();
+    }
+    catch (DbUpdateConcurrencyException)
+    {
+      if (!ParkExists(id))
+      {
+        return NotFound();
+      }
+      else
+      {
+        throw;
+      }
+    }
+    return NoContent();
+  }
+
+  private bool ParkExists(int id)
+  {
+    return _db.Parks.Any(e => e.ParkId == id);
+  }
+
+  private bool IsAuthor(int id, string userId)
+  {
+    return _db.Parks.Any(e => e.ParkId == id && e.User.Id == userId);
+  }
+
 
 
 }
