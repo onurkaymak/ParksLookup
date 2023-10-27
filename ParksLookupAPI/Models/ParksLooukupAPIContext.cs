@@ -77,10 +77,10 @@ namespace ParksLookupAPI.Models
 
       builder.Entity<Park>()
         .HasData(
-          new Park { ParkId = 1, Name = "Rocky Mountain National Park", StateId = 7, UserId = "onr" },
-           new Park { ParkId = 2, Name = "North Cascades National Park", StateId = 53, UserId = "onr" },
-           new Park { ParkId = 3, Name = "Mount Rainier National Park", StateId = 53, UserId = "onr" },
-           new Park { ParkId = 4, Name = "Crater Lake National Park", StateId = 41, UserId = "onr" }
+          new Park { ParkId = 1, Name = "Rocky Mountain National Park", EstablishedAsPark = new DateTime(1915, 1, 26), StateId = 7, UserId = "onr" },
+           new Park { ParkId = 2, Name = "North Cascades National Park", EstablishedAsPark = new DateTime(1968, 10, 2), StateId = 53, UserId = "onr" },
+           new Park { ParkId = 3, Name = "Mount Rainier National Park", EstablishedAsPark = new DateTime(1899, 3, 2), StateId = 53, UserId = "onr" },
+           new Park { ParkId = 4, Name = "Crater Lake National Park", EstablishedAsPark = new DateTime(1902, 5, 22), StateId = 41, UserId = "onr" }
         );
 
       var hasher = new PasswordHasher<IdentityUser>();
