@@ -17,10 +17,10 @@ namespace ParksLookupAPI.Models
     public string UserId { get; set; }
 
     [Required]
-    [JsonIgnore]
+    // [JsonIgnore]
     public State State { get; set; } // navigation property - One to Many
 
-    [JsonIgnore]
+    // [JsonIgnore]
     public ApplicationUser User { get; set; } // navigation property - One to Many
 
   }

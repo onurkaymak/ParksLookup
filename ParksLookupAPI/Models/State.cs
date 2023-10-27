@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ParksLookupAPI.Models
 {
@@ -9,6 +10,7 @@ namespace ParksLookupAPI.Models
     [Required]
     public string Name { get; set; }
 
+    [JsonIgnore]
     public List<Park> Parks { get; set; } // One to Many
   }
 }
