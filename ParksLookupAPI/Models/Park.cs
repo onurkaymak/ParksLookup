@@ -10,13 +10,16 @@ namespace ParksLookupAPI.Models
     [Required]
     public string Name { get; set; }
 
+    [Required]
     public DateTime EstablishedAsPark { get; set; }
 
+    [Required]
     public int StateId { get; set; }
 
+    [Required]
     public string UserId { get; set; }
 
-    [Required]
+
     // [JsonIgnore]
     public State State { get; set; } // navigation property - One to Many
 
