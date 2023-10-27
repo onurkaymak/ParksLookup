@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace ParksLookupAPI.Models
 {
@@ -16,8 +17,10 @@ namespace ParksLookupAPI.Models
     public string UserId { get; set; }
 
     [Required]
+    [JsonIgnore]
     public State State { get; set; } // navigation property - One to Many
 
+    [JsonIgnore]
     public ApplicationUser User { get; set; } // navigation property - One to Many
 
   }
