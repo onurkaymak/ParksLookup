@@ -63,4 +63,29 @@ public class AccountsController : ControllerBase
   }
 
 
+  [HttpPost("SignIn")]
+  public async Task<IActionResult> SignIn(SignInDto userInfo)
+  {
+    ApplicationUser user = await _userManager.FindByEmailAsync(userInfo.Email);
+
+    if (user != null)
+    {
+      var signInResult = await _signInManager.PasswordSignInAsync(user, userInfo.Password, isPersistent: false, lockoutOnFailure: false);
+
+      if (signInResult.Succeeded)
+      {
+        var authClaims = new List<Claim>
+            {
+               new Claim("UserId", user.Id)
+            };
+
+        var newToken = CreateToken(authClaims);
+
+        return Ok(new { status = "success", message = $"{userInfo.Email} signed in", token = newToken });
+      }
+    }
+    return BadRequest(new { status = "error", message = "Unable to sign in" });
+  }
+
+
 }
