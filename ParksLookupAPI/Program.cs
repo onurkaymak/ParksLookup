@@ -1,4 +1,4 @@
-using MessageBoardApi.Models;
+using ParksLookupAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
