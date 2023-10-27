@@ -24,6 +24,21 @@ public class AccountsController : ControllerBase
     _configuration = configuration;
   }
 
+  private string CreateToken(List<Claim> authClaims)
+  {
+    var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+    var token = new JwtSecurityToken(
+        issuer: _configuration["JWT:ValidIssuer"],
+        audience: _configuration["JWT:ValidAudience"],
+        expires: DateTime.Now.AddHours(3),
+        claims: authClaims,
+        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+        );
+
+    return new JwtSecurityTokenHandler().WriteToken(token);
+  }
+
   [HttpPost("register")]
   public async Task<IActionResult> Register([FromBody] RegisterDto user)
   {
