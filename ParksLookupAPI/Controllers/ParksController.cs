@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParksLookupAPI.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 
 
@@ -49,7 +51,7 @@ public class ParksController : ControllerBase
     }
   }
 
-
+  [Authorize]
   [HttpPost]
   public async Task<ActionResult<Park>> Post(Park park)
   {
@@ -75,6 +77,7 @@ public class ParksController : ControllerBase
     return park;
   }
 
+  [Authorize]
   [HttpPut("{id}")]
   public async Task<IActionResult> Put(int id, Park park, string userId)
   {
@@ -113,7 +116,7 @@ public class ParksController : ControllerBase
     return _db.Parks.Any(e => e.ParkId == id && e.User.Id == userId);
   }
 
-
+  [Authorize]
   [HttpDelete("{id}")]
   public async Task<IActionResult> DeletePark(int id)
   {
