@@ -262,9 +262,10 @@ To use the defaults, _do not include_ `dateFrom` and `dateTo`.
 ### Notes on Adding Search Parameters
 When adding more than one search parameter to an endpoint query, be sure to include an `&` between parameters.
 
-..........................................................................................
+<br/>
 
-### API Endpoints
+
+## API Endpoints
 Base URL: `http://localhost:5000`
 
 #### Authentication
@@ -281,6 +282,111 @@ GET /api/parks/{id}
 PUT /api/parks/{id}
 DELETE /api/parks/{id}
 ```
+..........................................................................................
+
+## Parks
+Allows user to implement CRUD operations about all the national parks.
+<br/>
+
+<h2 style="color:white;">GET -> /api/parks</h2>
+
+#### Path Parameters
+| Parameter | Type | Default | Required | Description |
+| :---: | :---: | :---: | :---: | --- |
+| stateId | int | none | false | Return matches by state.
+| dateFrom | string | none | false | Return any park on or after the specified date. |
+| dateTo | string | none | false | Return any park on or before the specified date. |
+
+This route returns all the national parks in the database,also you can filter the results by params, any user can reach this route without authentication.
+
+#### Example Queries
+
+Returns all the national park(s) for the specific state.
+```
+http://localhost:5000/api/parks?stateId=7
+```
+<br/>
+
+Returns all the national park(s) depends on established as a park date between the two chosen dates.
+```
+http://localhost:5000/api/parks?dateFrom=1950-11-11&dateTo=2000-11-11
+```
+<br/>
+
+Returns any park on or after the specified date.
+```
+http://localhost:5000/api/parks?dateFrom=1910-01-01
+```
+<br/>
+
+Return any park on or before the specified date.
+```
+http://localhost:5000/api/parks?dateTo=1950-01-01
+```
+<br/>
+
+#### Sample JSON Response
+```
+http://localhost:5000/api/parks?dateFrom=1950-11-11&dateTo=2000-11-11
+```
+```
+[
+    {
+        "parkId": 2,
+        "name": "North Cascades National Park",
+        "establishedAsPark": "1968-10-02T00:00:00",
+        "stateId": 53,
+        "userId": "onr",
+        "state": {
+            "stateId": 53,
+            "name": "WA"
+        },
+        "user": null
+    }
+]
+```
+<br/>
+<br/>
+
+<h2 style="color:white;">POST -> /api/parks</h2>
+
+This route allows authenticated users to create a new park row in the database. In order to use this route, registered user needs to sign in and use received JWT to get authorization for this route.
+
+#### Path Parameters
+
+There is no parameters for this route.
+
+#### Sample JSON Response
+```
+http://localhost:5000/api/parks
+```
+```
+{
+    "parkId": 8,
+    "name": "Test Park",
+    "establishedAsPark": "1991-10-22T00:00:00",
+    "stateId": 7,
+    "userId": "081eba28-74a7-449d-b8dc-d572350b4f85",
+    "state": null,
+    "user": null
+}
+```
+
+<br/>
+JWT added in the request with Postman `Authorization` option.
+
+<a href="https://ibb.co/4tP1HRT"><img src="https://gcdnb.pbrd.co/images/6ZKDMjWbg9J8.png?o=1" alt="POST" border="0" style="height:250px;width:750px;"/></a>
+
+<br/>
+Successful POST request and response.
+
+<a href="https://ibb.co/4tP1HRT"><img src="https://gcdnb.pbrd.co/images/cThRZWx4TBHb.png?o=1" alt="POST" border="0" style="height:450px;width:700px;"/></a>
+
+<br/>
+<br/>
+
+<h2 style="color:white;">GET -> /api/parks/{id}</h2>
+This routes returns the specific park for specific park id.
 
 #### Example Query
 ```
@@ -307,23 +413,92 @@ http://localhost:5000/api/parks/3
     }
 }
 ```
+<br/>
+
+Response after a successful GET request with specific park id, no authentication needed.
 
 <a href="https://ibb.co/4tP1HRT"><img src="https://gcdnb.pbrd.co/images/bACaufOTsBFl.png?o=1" alt="SignIn" border="0" style="height:550px;width:700px;"/></a>
 
-..........................................................................................
+<br/>
+<br/>
 
-### Parks
 
-
-#### Path Parameters
-| Parameter | Type | Default | Required | Description |
-| :---: | :---: | :---: | :---: | --- |
-| stateId | int | none | false | Return matches by state.
-| dateFrom | string | none | false | Return any park on or after the specified date. |
-| dateTo | string | none | false | Return any park on or before the specified date. |
+<h2 style="color:white;">PUT -> /api/parks/{id}</h2>
+This route allows authenticated users to update an existing park in the database. In order to use this route, registered user needs to sign in and use received JWT to get authorization for this route. Also to update an existing park successfully, you need to provide all the fields in the requst body for the park. 
+<br/>
+<br/>
+The response status code will be <strong>"204 - No Content" </strong>for a succesful request.
 
 #### Example Query
 ```
-https://localhost:5001/api/messages?groupId=1&dateTo=08/2023
+http://localhost:5000/api/parks/3
 ```
 
+#### Sample JSON Request Body
+```
+{   
+    "ParkId": "8",
+    "Name": "Updated Test Park",
+    "EstablishedAsPark": "1991-10-22",
+    "StateId": "7",
+    "UserId": "onr"
+}
+```
+<br/>
+<br/>
+
+<h2 style="color:white;">DELETE -> /api/parks/{id}</h2>
+This route allows authenticated users to delete an existing park in the database. In order to use this route, registered user needs to sign in and use received JWT to get authorization for this route. 
+<br/>
+<br/>
+The response status code will be <strong>"204 - No Content" </strong>for a succesful request.
+
+#### Example Query
+```
+http://localhost:5000/api/parks/8
+```
+
+#### Sample JSON Request Body
+```
+{   
+    "ParkId": "8",
+    "Name": "Updated Test Park",
+    "EstablishedAsPark": "1991-10-22",
+    "StateId": "7",
+    "UserId": "onr"
+}
+```
+<a href="https://ibb.co/4tP1HRT"><img src="https://gcdnb.pbrd.co/images/VazTTrXGgnVn.png?o=1" alt="Delete" border="0" style="height:300px;width:750px;"/></a>
+
+<br/>
+<br/>
+
+------------------------------
+
+### ✉️ Contact and Support
+
+If you have any feedback or concerns, please contact one of the contributors.
+
+<p>
+    <a href="https://github.com/onurkaymak/ParksLookupAPI/issues">Report Bug</a> ·
+    <a href="https://github.com/onurkaymak/ParksLookupAPI/issues">Request Feature</a>
+</p>
+
+------------------------------
+
+### ⚖️ License
+
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT). Copyright (C) 2023 Onur Kaymak. All Rights Reserved.
+
+```
+MIT License
+
+Copyright (c) 2023 Onur Kaymak.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
+<center><a href="#">Return to Top</a></center>

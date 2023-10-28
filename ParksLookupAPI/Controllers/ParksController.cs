@@ -57,7 +57,7 @@ public class ParksController : ControllerBase
   {
     _db.Parks.Add(park);
     await _db.SaveChangesAsync();
-    return NoContent();
+    return CreatedAtAction(nameof(GetPark), new { id = park.ParkId }, park);
   }
 
 
